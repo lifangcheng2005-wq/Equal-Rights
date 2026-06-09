@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>日常的微歧視：校園與職場的隱性偏見偵查線</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans TC', sans-serif; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .float-anim { animation: float 3.5s ease-in-out infinite; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-700 min-h-screen flex flex-col justify-between">
+
+  <!-- 頂級主視覺橫幅：全面突顯「微光匿名故事樹洞」為第一核心功能 -->
+  <header class="bg-gradient-to-br from-[#6b7794] via-[#7b8cae] to-[#8fa2c4] text-white py-16 px-6 shadow-md relative overflow-hidden">
+    <div class="absolute inset-0 bg-black/5 pointer-events-none"></div>
+    
+    <div class="max-w-5xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 relative z-10">
+      
+      <!-- 左側：吉祥物與專案宗旨介紹 -->
+      <div class="flex flex-col items-center lg:items-start text-center lg:text-left max-w-md">
+        <div class="flex-shrink-0 float-anim mb-6">
+          <img src="mascot.png" class="w-36 h-36 rounded-full border-4 border-white/40 shadow-2xl object-cover" alt="平權宣導吉祥物"/>
+        </div>
+        <span class="text-[11px] font-bold tracking-widest bg-emerald-600/90 text-white px-3 py-1 rounded-full uppercase shadow-sm">SDG 5 × SDG 10 永續平權倡議</span>
+        <h1 class="text-2xl md:text-3xl font-bold tracking-wide mt-4 mb-3 text-white leading-tight">日常的微歧視：<br>潛意識偏見偵查線</h1>
+        <p class="text-slate-100 text-xs md:text-sm leading-relaxed">流於表面的惡意已逐漸減少，但根深蒂固的「隱性偏見」與「微歧視」仍潛伏在校園與職場的日常對話中。讓我們一起卸下防備，主動察覺盲點。</p>
+      </div>
+
+      <!-- 右側核心重大升級：巨型、醒目的主打功能「微光匿名故事樹洞」功能帷幕卡片 -->
+      <div class="bg-white/15 backdrop-blur-lg border border-white/30 p-6 md:p-8 rounded-3xl max-w-xl w-full shadow-2xl flex flex-col justify-between min-h-[220px] transition-all hover:border-white/50">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-2xl">🕊️</span>
+            <h2 class="text-lg font-bold text-white tracking-wide">微光匿名故事樹洞</h2>
+          </div>
+          <p class="text-slate-100 text-xs leading-relaxed mb-6">
+            這是一個專為面對權力不對等、不敢走正式申訴管道的受害者，所量身打造的匿名傾訴安全同溫層。在這裡，你可以完全去識別化地寫下你在校園或職場遭遇的無形微歧視，抒發委屈，凝聚翻轉偏見的改變力量。
+          </p>
+        </div>
+        <a class="w-full bg-emerald-600 hover:bg-emerald-500 text-white text-center font-bold text-sm py-4 rounded-xl transition-all shadow-md transform hover:-translate-y-0.5 block tracking-widest" href="anonymous.html">
+          📥 進入微光匿名牆 · 安全訴說經歷 ➔
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- 功能版位強勢互換區：下方資訊方塊列 -->
+  <main class="max-w-5xl mx-auto px-6 py-12 w-full grid grid-cols-1 md:grid-cols-2 gap-8">
+    
+    <!-- 左側板位：互動小遊戲（全新進駐按鈕正名為：偏見天秤大分類） -->
+    <div class="bg-white p-6 md:p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex gap-5 items-start">
+      <div class="text-4xl bg-indigo-50 p-3 rounded-xl select-none">🎮</div>
+      <div class="flex-1">
+        <h3 class="text-base font-bold text-slate-800 mb-2">互動反思小遊戲</h3>
+        <p class="text-slate-500 text-xs leading-relaxed mb-4">透過 3 分鐘輕量化數位互動，在對話解謎與天秤動態傾斜中，主動反思生活常理下的既定成見，讓平權教育深植人心。</p>
+        <div class="flex flex-col sm:flex-row gap-2">
+          <a class="bg-indigo-600 hover:bg-indigo-500 text-white text-center text-xs font-bold px-4 py-3 rounded-xl transition-all shadow-sm flex-1" href="game1.html">
+            🔍 偏見偵查小隊
+          </a>
+          <!-- 【核心修改】：按鈕名字完美更改為「⚖️ 偏見天秤大分類」 -->
+          <a class="bg-[#75809c] hover:bg-[#5f6a84] text-white text-center text-xs font-bold px-4 py-3 rounded-xl transition-all shadow-sm flex-1" href="game2.html">
+            ⚖️ 偏見天秤大分類
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右側板位：平權求助指南（位置已與小遊戲完美互換） -->
+    <div class="bg-white p-6 md:p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex gap-5 items-start">
+      <div class="text-4xl bg-emerald-50 p-3 rounded-xl select-none">🛡️</div>
+      <div class="flex-1">
+        <h3 class="text-base font-bold text-slate-800 mb-2">平權求助指南</h3>
+        <p class="text-slate-500 text-xs leading-relaxed mb-4">整合台灣核心「性平三法」法規，提供自我防衛 3 步驟圖卡引導。並提供一鍵直撥諮詢專線，成為校園與職場心理安全感的守護前哨。</p>
+        <a class="inline-block bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-3 rounded-xl transition-all shadow-sm w-full text-center sm:w-auto" href="law.html">
+          ⚖️ 檢視法規與 3 秒申訴指南
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- 頁尾 -->
+  <footer class="bg-slate-800 text-slate-400 text-center py-6 text-xs leading-relaxed border-t border-slate-700">
+    本專案積極響應聯合國永續發展目標 SDG 5 性別平權 與 SDG 10 減少不平等。<br>
+    Copyright © 2026 跨世代性別平權倡議小組. All Rights Reserved.
+  </footer>
+
+</body>
+</html>

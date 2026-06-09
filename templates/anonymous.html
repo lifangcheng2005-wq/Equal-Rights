@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微光匿名故事樹洞 - 傾聽隱性偏見的心聲</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <nav class="bg-[#75809c] text-white shadow-md py-4 px-6 relative z-10">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <span class="font-bold text-sm md:text-base tracking-wider">🕊️ 核心主打：微光匿名故事樹洞</span>
+            <button onclick="window.location.href='index.html'" class="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg text-xs transition border border-white/20">← 返回首頁</button>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 py-8 w-full flex-1 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <section class="lg:col-span-1 bg-white rounded-2xl shadow-xl p-6 border border-slate-100 h-fit sticky top-6">
+            <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-3">
+                <span class="text-xl">📥</span>
+                <h3 class="text-base font-bold text-slate-800 tracking-wide">安全訴說你的經歷</h3>
+            </div>
+            <p class="text-slate-500 text-xs leading-relaxed mb-6">
+                這是一個<b>完全去識別化</b>的安全空間。請在此寫下你遭遇的無形微歧視或心聲，你的聲音將成為推動平權的重要力量。
+            </p>
+
+            <form id="comment-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">代號 / 匿名暱稱</label>
+                    <input type="text" id="author-input" maxlength="15" placeholder="例如：迷惘的工程師" class="w-full text-xs p-3 rounded-xl border border-slate-200 focus:outline-none focus:border-indigo-400 bg-slate-50 transition-colors" required>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">所屬情境</label>
+                    <select id="tag-input" class="w-full text-xs p-3 rounded-xl border border-slate-200 focus:outline-none focus:border-indigo-400 bg-slate-50 transition-colors">
+                        <option value="💼 職場空間">💼 職場空間</option>
+                        <option value="🏫 校園象牙塔">🏫 校園象牙塔</option>
+                        <option value="🕊️ 日常社交">🕊️ 日常社交</option>
+                        <option value="✨ 其他心聲">✨ 其他心聲</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">你的經歷 / 心聲內容</label>
+                    <textarea id="content-input" rows="5" maxlength="300" placeholder="限300字..." class="w-full text-xs p-3 rounded-xl border border-slate-200 focus:outline-none focus:border-indigo-400 bg-slate-50 transition-colors resize-none" required></textarea>
+                </div>
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-3.5 rounded-xl transition-all shadow-md transform hover:-translate-y-0.5 tracking-wider">
+                    🕊️ 匿名安全發佈到牆上
+                </button>
+            </form>
+
+            <div class="mt-8 pt-4 border-t border-slate-100 flex justify-between items-center text-[10px] text-slate-400">
+                <span>演示專用：僅清空您的留言</span>
+                <button onclick="clearUserOnlyMessages()" class="text-rose-500 hover:text-rose-600 font-medium transition">
+                    🗑️ 清除我的留言
+                </button>
+            </div>
+        </section>
+
+        <section class="lg:col-span-2 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-200 pb-3">
+                <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                    <span>🕊️</span> <span>微光故事便利貼牆</span>
+                </h2>
+                <div class="flex gap-2 border-b border-slate-200 pb-3 items-center">
+                <button id="filter-all" onclick="setFilter('all')" class="px-4 py-1 text-xs font-bold rounded-full bg-slate-800 text-white transition-all">全部留言</button>
+                <button id="filter-mine" onclick="setFilter('mine')" class="px-4 py-1 text-xs font-bold rounded-full bg-slate-200 text-slate-600 transition-all">我的留言</button>
+                </div>
+                <span id="message-count" class="text-xs bg-slate-200 text-slate-600 px-2.5 py-0.5 rounded-full font-bold">目前共有 0 則故事</span>
+            </div>
+            <div id="wall-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div id="empty-hint" class="col-span-full py-16 text-center text-slate-400 text-xs space-y-2 hidden">
+                    <div class="text-4xl">🍃</div>
+                    <p>目前樹洞牆上靜悄悄的...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-100 text-slate-400 text-center py-4 text-xs border-t border-slate-200">
+        聽見沈默的聲音，接住每一份委屈，落實 SDG 5 與 SDG 10 平權倡議。
+    </footer>
+
+    <script>
+        const morandiColors = [
+    "bg-blue-50/80 border-blue-200 text-blue-950",
+    "bg-emerald-50/80 border-emerald-200 text-emerald-950",
+    "bg-purple-50/70 border-purple-200 text-purple-950",
+    "bg-amber-50/70 border-amber-200 text-amber-950",
+    "bg-slate-100/80 border-slate-200 text-slate-950"
+];
+
+let currentFilter = "all";
+
+const masterDefaultPool = [
+    { author: "新婚的女主管", tag: "💼 職場空間", content: "剛結婚主管就調離我的核心研發專案，說海外打仗需要沒家庭負擔的人去，要我好好享受新婚家庭。這根本是用體貼包裝的玻璃天花板。", date: "2026-06-05" },
+    { author: "資工系學姐", tag: "🏫 校園象牙塔", content: "組長說：『後端邏輯架構太粗重男生搞定就好，妳負責網頁視覺包裝跟上台簡報，女生比較細心嘛！』我程式明明是全班第一名。", date: "2026-06-06" },
+    { author: "請育嬰假的工程師", tag: "💼 職場空間", content: "向科技公司遞交育嬰假申請，主管私下勸我：『大男人回去換尿布，以後不怕被貼上沒野心的標籤嗎？』男人顧家難道就沒野心？", date: "2026-06-07" },
+    { author: "運動健身女孩", tag: "🕊️ 日常社交", content: "在健身房用槓鈴做深蹲，旁邊的男教練走過來說：『女生不要碰大重量，練出粗壯大肌肉就太粗魯、沒有女人味了，男生不喜歡。』", date: "2026-06-08" },
+    { author: "社區廚房男志工", tag: "🕊️ 日常社交", content: "在管委會聚餐幫忙洗碗，長輩經過調侃：『大男人躲在廚房洗碗粗手粗腳成何體統？趕快去客廳聊天聊大事，洗碗這種細心活留給女生做就好了。』", date: "2026-06-08" },
+    { author: "幼教實習生", tag: "🏫 校園象牙塔", content: "督導說：『沒想到他比女同學還溫柔有耐心，男生願意發揮母愛也是能帶好小孩。』這不是母愛，是我的專業。", date: "2026-06-09" },
+    { author: "買房的女主管", tag: "🕊️ 日常社交", content: "除夕夜長輩對我說：『賺再多，女人的終極歸宿還是家庭，沒人陪很遺憾。』", date: "2026-06-09" },
+    { author: "新手駕駛", tag: "🕊️ 日常社交", content: "同學說：『妳倒車入庫技術比男生還好，完全不像女生耶！』這到底是讚美還是貶低？", date: "2026-06-09" },
+    { author: "護理系男同學", tag: "🏫 校園象牙塔", content: "主任說：『男孩子力氣大，搬運病人交給你們就對了！』我們的價值只剩搬運嗎？", date: "2026-06-09" },
+    { author: "行銷實習組員", tag: "💼 職場空間", content: "總監說：『應酬酒局比較粗魯，交給男同事去，妳留下來排版校對。』", date: "2026-06-09" }
+];
+
+function getRandomTwoFromPool() {
+    let poolCopy = [...masterDefaultPool];
+
+    for (let i = poolCopy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [poolCopy[i], poolCopy[j]] = [poolCopy[j], poolCopy[i]];
+    }
+
+    return poolCopy.slice(0, 2).map(story => ({
+        ...story,
+        colorClass: morandiColors[Math.floor(Math.random() * morandiColors.length)],
+        isDefault: true
+    }));
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+
+    const initialRandom = getRandomTwoFromPool();
+
+    let saved =
+        JSON.parse(localStorage.getItem('anonymous_wall_messages')) || [];
+
+    let userMessages = saved
+        .filter(msg => !msg.isDefault)
+        .map(msg => ({
+            ...msg,
+            id: msg.id || Date.now() + Math.random(),
+            isMine: true
+        }));
+
+    localStorage.setItem(
+        'anonymous_wall_messages',
+        JSON.stringify([...initialRandom, ...userMessages])
+    );
+
+    renderWall();
+});
+
+function renderWall() {
+
+    const container = document.getElementById('wall-container');
+    const hint = document.getElementById('empty-hint');
+    const countSpan = document.getElementById('message-count');
+
+    const messages =
+        JSON.parse(localStorage.getItem('anonymous_wall_messages')) || [];
+
+    let displayMessages = messages;
+
+    if (currentFilter === 'mine') {
+        displayMessages = messages.filter(msg => msg.isMine);
+    }
+
+    countSpan.innerText =
+        `目前共有 ${messages.length} 則故事`;
+
+    hint.classList.toggle(
+        'hidden',
+        displayMessages.length > 0
+    );
+
+    container.querySelectorAll('.msg-card')
+        .forEach(el => el.remove());
+
+    displayMessages
+        .slice()
+        .reverse()
+        .forEach(msg => {
+
+            const card = document.createElement('div');
+
+            card.className =
+                `msg-card p-5 rounded-2xl border-2 shadow-sm ${msg.colorClass}
+                flex flex-col justify-between min-h-[160px] animate-fade-in`;
+
+            card.innerHTML = `
+                <div>
+                    <div class="flex justify-between items-center mb-2.5">
+                        <span class="text-[10px] font-bold px-2 py-0.5 bg-white/60 rounded border border-current/10 opacity-80">
+                            ${msg.tag}
+                        </span>
+
+                        <span class="text-[10px] font-mono opacity-40">
+                            ${msg.date}
+                        </span>
+                    </div>
+
+                    <p class="text-xs font-medium leading-relaxed tracking-wide whitespace-pre-line">
+                        ${msg.content}
+                    </p>
+                </div>
+
+                <div class="mt-4 pt-2 border-t border-current/10 flex justify-between items-center">
+
+                    ${
+                        msg.isMine
+                        ? `
+                        <button
+                            onclick="deleteMessage('${msg.id}')"
+                            class="text-red-500 hover:text-red-700 text-sm"
+                            title="刪除此留言">
+                            🗑️
+                        </button>
+                        `
+                        : '<span></span>'
+                    }
+
+                    <div class="text-[11px] font-bold opacity-60">
+                        🕵️‍♂️ 來自：${msg.author}
+                    </div>
+
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+}
+
+document.getElementById('comment-form')
+.addEventListener('submit', function(e) {
+
+    e.preventDefault();
+
+    const newMessage = {
+
+        id: Date.now(),
+
+        author:
+            document.getElementById('author-input').value.trim(),
+
+        tag:
+            document.getElementById('tag-input').value,
+
+        content:
+            document.getElementById('content-input').value.trim(),
+
+        date:
+            new Date().toISOString().split('T')[0],
+
+        colorClass:
+            morandiColors[
+                Math.floor(Math.random() * morandiColors.length)
+            ],
+
+        isDefault: false,
+
+        isMine: true
+    };
+
+    let messages =
+        JSON.parse(
+            localStorage.getItem('anonymous_wall_messages')
+        ) || [];
+
+    messages.push(newMessage);
+
+    localStorage.setItem(
+        'anonymous_wall_messages',
+        JSON.stringify(messages)
+    );
+
+    document.getElementById('author-input').value = '';
+    document.getElementById('content-input').value = '';
+
+    renderWall();
+});
+
+function setFilter(type) {
+
+    currentFilter = type;
+
+    const allBtn =
+        document.getElementById('filter-all');
+
+    const mineBtn =
+        document.getElementById('filter-mine');
+
+    if (type === 'all') {
+
+        allBtn.className =
+            'px-4 py-1 text-xs font-bold rounded-full bg-slate-800 text-white transition-all';
+
+        mineBtn.className =
+            'px-4 py-1 text-xs font-bold rounded-full bg-slate-200 text-slate-600 transition-all';
+    }
+    else {
+
+        mineBtn.className =
+            'px-4 py-1 text-xs font-bold rounded-full bg-slate-800 text-white transition-all';
+
+        allBtn.className =
+            'px-4 py-1 text-xs font-bold rounded-full bg-slate-200 text-slate-600 transition-all';
+    }
+
+    renderWall();
+}
+
+function deleteMessage(id) {
+
+    if (!confirm('確定要刪除這則留言嗎？')) {
+        return;
+    }
+
+    let messages =
+        JSON.parse(
+            localStorage.getItem('anonymous_wall_messages')
+        ) || [];
+
+    messages = messages.filter(
+        msg => String(msg.id) !== String(id)
+    );
+
+    localStorage.setItem(
+        'anonymous_wall_messages',
+        JSON.stringify(messages)
+    );
+
+    renderWall();
+}
+
+function clearUserOnlyMessages() {
+
+    let currentData =
+        JSON.parse(
+            localStorage.getItem('anonymous_wall_messages')
+        ) || [];
+
+    if (!currentData.some(msg => !msg.isDefault)) {
+
+        alert("💡 目前只有系統預設的精選故事範例喔！");
+        return;
+    }
+
+    if (confirm("🗑️ 確定要清除您的自創留言嗎？")) {
+
+        localStorage.setItem(
+            'anonymous_wall_messages',
+            JSON.stringify(
+                currentData.filter(msg => msg.isDefault)
+            )
+        );
+
+        renderWall();
+    }
+}
+    </script>
+</body>
+</html>

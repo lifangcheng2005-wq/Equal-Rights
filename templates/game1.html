@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日常微歧視與隱性偏見偵查線 - 偏見偵查小隊</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <div id="intro-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 md:p-8 shadow-2xl border border-slate-100 animate-fade-in text-sm">
+            <div class="text-4xl mb-4 text-center">🔍</div>
+            <h3 class="text-xl font-bold text-slate-900 mb-4 text-center">歡迎加入偏見偵查小隊</h3>
+            <div class="text-slate-600 space-y-3.5 leading-relaxed mb-6 text-xs md:text-sm">
+                <p>在生活與職場中，真正的偏見往往懂得偽裝。最難以察覺的，是那些包裝在<b>「善意關懷」、「傳統讚美」與「組織常理」</b>底下的「隱性偏見」與「微歧視」。</p>
+                <p class="text-indigo-600 font-bold">🕵️‍♂️ 潛意識盲點搜查行動：</p>
+                <p>接下來的對話極具迷惑性。作答時，請依據你的平權直覺選擇回應。點選選項後，系統將<b>立刻公布詳細解析</b>，帶你拆解各個錯誤答案背後的邏輯謬誤。順利做完題組後，還會為你統計最終的「偏見指數」喔！</p>
+            </div>
+            <button onclick="closeIntroModal()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition-all shadow-md text-center text-sm transform hover:-translate-y-0.5">
+                開始搜查盲點 ➔
+            </button>
+        </div>
+    </div>
+
+    <nav class="bg-[#75809c] text-white shadow-md py-4 px-6 relative z-10">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <span class="font-bold text-sm md:text-base tracking-wider">🔍 偏見偵查小隊：日常微歧視搜查線</span>
+            <button onclick="window.location.href='index.html'" class="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg text-xs transition border border-white/20">← 返回首頁</button>
+        </div>
+    </nav>
+
+    <main class="max-w-3xl mx-auto px-4 py-10 w-full flex-1 flex items-center justify-center relative z-10">
+        
+        <section id="pack-selector" class="bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-slate-100 w-full animate-fade-in">
+            <h2 class="text-xl font-bold text-slate-800 mb-2 flex items-center gap-2">選擇偏見偵查事件簿</h2>
+            <p class="text-xs text-slate-400 mb-6">請選擇一個你想深入探索的情境題組，每個題組皆包含 4 道核心難題：</p>
+            
+            <div class="grid gap-4">
+                <button onclick="startGroup('A')" class="w-full text-left p-5 rounded-xl border-2 border-slate-100 hover:border-indigo-400 hover:bg-indigo-50/30 transition-all shadow-sm flex justify-between items-center group">
+                    <div>
+                        <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider block mb-1">題組 A</span>
+                        <h4 class="text-base font-bold text-slate-800 group-hover:text-indigo-900">💼 微光職場事件簿</h4>
+                        <p class="text-xs text-slate-500 mt-1">聚焦職場招募、績效考核、商務應酬、男性育嬰假等隱形玻璃天花板情境。</p>
+                    </div>
+                    <span class="text-xl text-slate-400 group-hover:text-indigo-600 transition-colors">➔</span>
+                </button>
+
+                <button onclick="startGroup('B')" class="w-full text-left p-5 rounded-xl border-2 border-slate-100 hover:border-emerald-400 hover:bg-emerald-50/30 transition-all shadow-sm flex justify-between items-center group">
+                    <div>
+                        <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider block mb-1">題組 B</span>
+                        <h4 class="text-base font-bold text-slate-800 group-hover:text-emerald-900">🏫 青春期的偏見記</h4>
+                        <p class="text-xs text-slate-500 mt-1">透視校園專題分組、非傳統性別科系選擇、學生社團選拔及校園同儕微歧視。</p>
+                    </div>
+                    <span class="text-xl text-slate-400 group-hover:text-emerald-600 transition-colors">➔</span>
+                </button>
+
+                <button onclick="startGroup('C')" class="w-full text-left p-5 rounded-xl border-2 border-slate-100 hover:border-purple-400 hover:bg-purple-50/30 transition-all shadow-sm flex justify-between items-center group">
+                    <div>
+                        <span class="text-xs font-bold text-purple-600 uppercase tracking-wider block mb-1">題組 C</span>
+                        <h4 class="text-base font-bold text-slate-800 group-hover:text-purple-900">🕊️ 現代社交的微歧視</h4>
+                        <p class="text-xs text-slate-500 mt-1">探討日常家庭聚會、包裝成稱讚的標籤、社交互動與公眾場合中的性別盲區。</p>
+                    </div>
+                    <span class="text-xl text-slate-400 group-hover:text-purple-600 transition-colors">➔</span>
+                </button>
+            </div>
+        </section>
+
+        <section id="game-panel" class="hidden bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-slate-100 w-full flex flex-col justify-between min-h-[550px]">
+            <div>
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2" id="current-group-title">偵查現場</h2>
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold" id="scenario-index">情境 1 / 4</span>
+                        <button onclick="abortGame()" class="text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200 px-2.5 py-1 rounded-lg transition font-medium">
+                            ⏱️ 中斷退出
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-900 text-slate-200 p-4 rounded-xl mb-6 text-xs md:text-sm leading-relaxed border-l-4 border-indigo-500 shadow-inner" id="scenario-desc">
+                    正在佈署案發現場...
+                </div>
+
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-6 relative">
+                    <p class="text-xs font-bold text-indigo-600 mb-1" id="npc-name">NPC 說：</p>
+                    <div id="dialog-box" class="text-sm md:text-base text-slate-800 font-medium leading-relaxed bg-white p-4 rounded-xl border border-slate-100 shadow-sm"></div>
+                </div>
+            </div>
+
+            <div id="choices-area" class="grid gap-3 mb-4"></div>
+
+            <div id="feedback-block" class="hidden my-4 p-4 rounded-xl border text-xs leading-relaxed animate-fade-in">
+                <div class="font-bold text-sm mb-2" id="feedback-title"></div>
+                <div class="space-y-2 text-slate-700" id="feedback-analysis-content"></div>
+            </div>
+
+            <div class="flex justify-between items-center gap-4 mt-4 border-t border-slate-100 pt-4">
+                <button id="prev-btn" onclick="prevScenario()" class="text-xs font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 px-4 py-3 rounded-xl transition">
+                    ← 回上一題
+                </button>
+                <button id="next-btn" onclick="nextScenario()" class="hidden text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 px-6 py-3 rounded-xl transition shadow-sm">
+                    前進下一題 ➔
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-100 text-slate-400 text-center py-4 text-xs border-t border-slate-200">
+        精確辨識日常言語對話中的隱性盲點，落實永續發展平權精神。
+    </footer>
+
+    <script>
+        const groupDatabase = {
+            'A': {
+                title: "💼 微光職場事件簿",
+                scenarios: [
+                    {
+                        desc: "【高階晉升現場】年度高階主管考核會上，資深人資長晴晴看著表現卓越、剛新婚的女性主管小蔓的檔案，語氣和藹地對其餘委員評審說：",
+                        npc: "人資長 晴晴",
+                        text: "「小蔓這幾年的專案表現確實沒話說，公司也想拉拔她。不過大家都知道，接下來海外開拓專案需要沒日沒夜、毫無家庭負擔的人去打仗。她剛新婚，正是最需要享受家庭溫馨、調養身體的時候。出於公司對同仁生活品質的體貼，這次升遷我們先給沒有家庭後顧之憂的阿修，過幾年等小蔓家庭穩定了再說，這才是人性化管理，大家覺得呢？」",
+                        choices: [
+                            "「謝謝長官這麼體貼女性，小蔓剛結婚確實不宜太過操勞，我同意這次先推薦阿修上任。」",
+                            "「這根本是嚴重的性別歧視！難道結婚的男性阿修就不需要享受家庭溫馨嗎？幕後高層思維就是自私！」",
+                            "「出於對員工的尊重，我們應將海外專案的預期工作強度客觀告知小蔓，由她本人基於專業評估其職涯意願與發展，而非由組織預設其性別與婚姻狀態會干擾其專業投入。」",
+                            "「我覺得不妥，小蔓的老公非常開明，也願意做全職家庭主夫，所以她絕對有能力跟男人一樣瘋狂加班，不會有任何家庭包袱。」"
+                        ],
+                        correctText: "「出於對員工的尊重，我們應將海外專案的預期工作強度客觀告知小蔓，由她本人基於專業評估其職涯意願與發展，而非由組織預設其性別與婚姻狀態會干擾其專業投入。」",
+                        analysis: {
+                            correct: "精準識破！你沒有落入『善意關懷』的陷阱。這句話屬於典型的『善意偏見』，看似關護女性，實則透過結構性的保護主義剝奪其選擇權，違反《性別平等工作法》第7條。",
+                            wrong0: "<b>選項 A 錯誤：【溫和順從謬誤】</b>。將組織剝奪女性同仁權利的行為合理化為體貼，無形中成為了玻璃天花板的幫兇。",
+                            wrong1: "<b>選項 B 錯誤：【情緒化對立謬誤】</b>。雖然指出了性別不對等，但流於情緒宣洩與人身攻擊，無法在組織體制中建立具建設性的平權共識。",
+                            wrong3: "<b>選項 D 錯誤：【毒性職場陷阱】</b>。這是在迎合『員工必須徹底奉獻家庭、瘋狂加班才算專業』的毒性加班文化，而非從本質上落實平等。"
+                        }
+                    },
+                    {
+                        desc: "【商詢應酬現場】核心研發專案簽約成功，晚上要與大客戶進行應酬。專案總監小宇在分配同仁工作時，對著團隊內技術實力最頂尖的晴晴說：",
+                        npc: "專案總監 小宇",
+                        text: "「晴晴，晚上的酒局妳就不用跟去了，那群客戶應酬起來比較粗魯，女生去很容易尷尬。這種應酬的苦活交給阿修他們男生去負責就好，妳留在辦公室幫我們把最後的合約文字排版校對一下，明天一早我們直接送審，這樣合作無間！」",
+                        choices: [
+                            "「好的總監，那我今天就留在辦公室做文件排版，謝謝總監顧慮我的安全。」",
+                            "「憑什麼酒局不讓我去？你們男生是不是想趁應酬去什麼不正當的場所？少瞧不起女生的酒量了！」",
+                            "「這是一次涉及專案後續架構對接的重要商務會議，不應以性別偏見來決定出席名單。做為專案技術負責人，我出席才能確保後續技術對接的精準度，應酬習慣不應凌駕於專業分工之上。」",
+                            "「既然總監這麼說，那今天的排版工作應該也讓男同事阿修來平分，女生不該包辦所有的文書行政。」"
+                        ],
+                        correctText: "「這是一次涉及專案後續架構對接的重要商務會議，不應以性別偏見來決定出席名單。做為專案技術負責人，我出席才能確保後續技術對接的精準度，應酬習慣不應凌駕於專業分工之上。」",
+                        analysis: {
+                            correct: "漂亮！你成功拆解了將商務應酬『性別特質化』的隱性偏見，站穩技術負責人的專業立場，拒絕被的事務性工作邊緣化。",
+                            wrong0: "<b>選項 A 錯誤：【舒適妥協盲區】</b>。因為追求表面的安全或舒適，接受了組織將重要商務人脈機會轉讓給男性，無形中限縮了自己的職涯能見度。",
+                            wrong1: "<b>選項 B 錯誤：【偏離專業焦點】</b>。流於無意義的臆測與防衛心，將嚴肅的專業分工議題歪樓為酒量比拼或私德質疑，流於無效溝通。",
+                            wrong3: "<b>選項 D 錯誤：【微觀失焦偏誤】</b>。此時核心問題不是『誰來分擔文書工作』，而是『核心商務對接機會因為性別被剝奪』，模糊了捍衛權利的焦點。"
+                        }
+                    },
+                    {
+                        desc: "【男性育嬰假現場】部門會議結束後，男工程師阿修向主管小宇遞交育嬰假申請，主管小宇拍拍他的肩膀，面露難色、語重心長地私下對他說：",
+                        npc: "部門主管 小宇",
+                        text: "「阿修啊，我們團隊現在正是衝刺期。男人真的還是要以事業為重。你太太請假在家帶小孩就好了嘛，你一個大男人請假回去餵奶、換尿布，在職涯黃金期中斷半年，你不怕以後在科技業被貼上沒野心的標籤嗎？我也是為你的前途著想。」",
+                        choices: [
+                            "「主管說得對，是我考慮不周，我回去叫我太太直接請假好了，我繼續留在公司加班。」",
+                            "「現在是什麼時代了？不給請育嬰假我就去勞工局告死你！你這個思想落後的古董主管！」",
+                            "「育兒與家庭照顧是父母共同的責任與法定權利，不應由性別刻板印象來決定由誰承擔。依法申請育嬰留職停薪是為了平衡家庭，不應與個人的專業野心或考績評價做不當聯結。」",
+                            "「那我請假的這半年，公司應該多招募一些不用生小孩的單身女性進來頂替，這樣就不會影響團隊進度了。」"
+                        ],
+                        correctText: "「育兒與家庭照顧是父母共同的責任與法定權利，不應由性別刻板印象來決定由誰承擔。依法申請育嬰留職停薪是為了平衡家庭，不應與個人的專業野心或考績評價做不當聯結。」",
+                        analysis: {
+                            correct: "精準狙擊！你抓到了對男性的『陽剛成功學框架』。社會不僅壓迫女性，同樣也在用『男人必須當唯一經濟支柱、不該請假顧家』來壓迫男性。你成功引用了《性別平等工作法》的保障權利。",
+                            wrong0: "<b>選項 A 錯誤：【傳統框架內化】</b>。向世俗的成功學妥協，將育兒壓力全數轉嫁給伴侶，既限縮了自己的父職參與，也加重了女性伴侶的職涯中斷。",
+                            wrong1: "<b>選項 B 錯誤：【破壞性對立】</b>。流於單純的情緒宣洩與法律威脅，在尚未進行理性專業溝通前便全面撕裂職場人際關係，流於意氣之爭。",
+                            wrong3: "<b>選項 D 錯誤：【轉嫁壓迫偏誤】</b>。試圖透過犧牲或標籤化另一個群體（單身女性）來解決自己的困境，本質上加劇了職場不平等。"
+                        }
+                    },
+                    {
+                        desc: "【面試求職現場】知名外商招募產品經理，面試官晴晴看著履歷完美的求職者小蔓，微笑著問了一句看似人情味的問題：",
+                        npc: "面試官 晴晴",
+                        text: "「小蔓妳好，妳的學經歷真的無懈可擊。我們這工作需要常出差，我看妳資料寫 29 歲。我也想冒昧請教一下，妳目前有穩定交往的對象嗎？近期兩三年內有沒有結婚或生育的計畫？我們只是想先規劃人力，希望妳別介意。」",
+                        choices: [
+                            "「我有穩定男友，但我們說好五年內不生小孩，絕對會全力配合公司加班，請您放心錄用我！」",
+                            "「這是我的隱私，你們外商難道不懂得尊重隱私嗎？問這個問題我可以立刻去檢舉你們勞動法歧視！」",
+                            "「我個人的婚姻或生育規劃，並不會影響我對這份職務的專業投入與出差配合度。招募評選建議回歸到我履歷中所展現的產品規劃實力與專案績效進行客觀評核。」",
+                            "「我有結婚計畫，但我覺得女性結婚後因為心思更成熟、反而更擅長管理產品，比單身男性更優秀。」"
+                        ],
+                        correctText: "「我個人的婚姻或生育規劃，並不會影響我對這份職務的專業投入與出差配合度。招募評選建議回歸到我履歷中所展現的產品規劃實力與專案績效進行客觀評核。」",
+                        analysis: {
+                            correct: "完美反駁！求職面試詢問婚姻與生育計畫已涉嫌違反《性別平等工作法》。你站穩專業立場，成功將面試焦點拉回客觀績效。",
+                            wrong0: "<b>選項 A 錯誤：【讓渡權利謬誤】</b>。為了迎合面試官的隱性偏見，主動在求職現場承諾割讓個人生育與家庭自主權，反而加劇了就業市場對女性的潛在篩選歧視。",
+                            wrong1: "<b>選項 B 錯誤：【激進商業溝通】</b>。雖然法律觀念正確，但在面試當下採取過度防衛且挑釁的語氣，未能以專業、沉穩的姿態在商務場合反駁偏見。",
+                            wrong3: "<b>選項 D 錯誤：【反向標籤偏誤】</b>。試圖透過吹捧某種特定身份（已婚女性）並貶低另一身份（單身男性）來爭取認同，本質上仍是用標籤在看人。"
+                        }
+                    }
+                ]
+            },
+            'B': {
+                title: "🏫 青春期與象牙塔的偏見記",
+                scenarios: [
+                    {
+                        desc: "【理工科系分組】通識課程要求進行 AI 專案開發。分組會議中，身為專題組長的理工男阿修，對著在程式課拿過第一名的女同學小蔓說：",
+                        npc: "專題組長 阿修",
+                        text: "「小蔓，我們這組的後端代碼架構非常硬，壓力很大。妳心思那麼細膩，不如專心幫我們組做網頁前端視覺、排版，還有最後期末發表的 PPT 跟上台報告。這種研發核心的粗重技術活，給我們男生來爆肝熬夜搞定就行了，妳負責幫團隊包裝，這樣才是完美的團隊合作！」",
+                        choices: [
+                            "「好啊，既然你們想多承擔一點技術代碼，那我就負責做 PPT 包裝跟最後上台報告。」",
+                            "「程式第一名的同學負責做 PPT，而讓進度落後的人去刻核心架構，這樣的專業分工邏輯顯然不符合團隊利益最大化。我們應該依據客觀的程式考核成績來分配代碼模組。」",
+                            "「程式碼算什麼核心？你們男生就是愛逞強、愛面子。做網頁視覺跟簡報包裝才是決定專案生死尊嚴的關鍵，你們根本不懂美術！」",
+                            "「為了證明女生不比男生差，我也要加入演算法熬夜組，我甚至可以連續三天不睡覺，絕對比你們男生還能爆肝！」"
+                        ],
+                        correctText: "「程式第一名的同學負責做 PPT，而讓進度落後的人去刻核心架構，這樣的專業分工邏輯顯然不符合團隊利益最大化。我們應該依據客觀的程式考核成績來分配代碼模組。」",
+                        analysis: {
+                            correct: "精準反駁！你抓到了隱藏在『讚美心思細膩』下的刻板分工。組長預設了高強度技術專屬於男性，無形中將優秀女性邊緣化，阻礙其展現核心實力。",
+                            wrong0: "<b>選項 A 錯誤：【放棄發言權利】</b>。為了避免衝突或圖得一時輕鬆，順從了同學的性別貼標籤分工，放棄了在學術核心領域展現實力的機會。",
+                            wrong1: "<b>選項 C 錯誤：【主觀審美對立】</b>。試圖透過貶低技術、抬高美術來反駁，不僅無法扭轉組長的偏見，反而落入另一種意氣之爭。",
+                            wrong3: "<b>選項 D 錯誤：【迎合毒性競爭】</b>。盲目接受了『不眠不休、爆肝才叫有能力』的校園毒性文化，試圖用不健康的努力去迎合偏見標準。"
+                        }
+                    },
+                    {
+                        desc: "【護理科系新生週】護理學系入學新生座談會上，資深的系主任晴晴在歡迎全體新生時，對著台下佔極少數的男學生們展現熱情，微笑著說：",
+                        npc: "護理系主任 晴晴",
+                        text: "「看到今年有這麼多男同學加入護理大家庭。護理工作雖然需要同理心，但現代醫療也需要很多粗重體力活。男孩子力氣大，以後去急診室、加護病房搬運病人，一定能成為我們系上的中流佇柱！大家要多向這些男同學看齊，各取所長！」",
+                        choices: [
+                            "「主任說得對！我們男生體力好，以後急診重活、夜班都包在我們身上，女生負責溫柔照護就好！」",
+                            "「系主任根本瞧不起男生的細心！男生難道就不配擁有溫柔的照護特質嗎？為什麼只把我們當作廉價的搬運勞工？」",
+                            "「謝謝主任的勉勵。不過護理的核心在於臨床專業與同理心感知，這些專業特質因人而異，而非取決於性別。體力與抗壓性亦是每位護理人員的共同培訓指標，分工應依循臨床專業，而非性別直覺。」",
+                            "「我建議系上以後男女招收比例必須強制作到 1:1，並且規定女生也要去練舉重，這樣才能達到真正的性別平等。」"
+                        ],
+                        correctText: "「謝謝主任的勉勵。不過護理的核心在於臨床專業與同理心感知，這些專業特質因人而異，而非取決於性別。體力與抗壓性亦是每位護理人員的共同培訓指標，分工應依循臨床專業，而非性別直覺。」",
+                        analysis: {
+                            correct: "極其敏銳！你成功破譯了長輩包裝在讚美底下的雙重偏見：將男性矮化為『純體力勞動』，同時也暗示了女性『力氣小、不適合高壓環境』，限制了醫護特質的多元發展。",
+                            wrong0: "<b>選項 A 錯誤：【貼籤自我內化】</b>。男學生主動承擔所有體力活並限縮女生的能力，加速且鞏固了科系內部的偏見分工。",
+                            wrong1: "<b>選項 B 錯誤：【自憐化情緒反應】</b>。回應方式流於自憐與情緒化反彈，未能以理性的學術與護理專業本質來導正主任的觀念誤差。",
+                            wrong3: "<b>選項 D 錯誤：【機械僵化平等】</b>。提出流於表面、強迫式的比例與訓練，忽略了適才適性與自主填選科系的本質，流於不切實際。"
+                        }
+                    },
+                    {
+                        desc: "【學生會幹部選拔】學生會改選，副會長小蔓看著表現優異的男同學阿修的資料，轉頭對會長小宇說：",
+                        npc: "副會長 小蔓",
+                        text: "「阿修的活動企劃能力真的沒話說。不過這次我們要選的是秘書長，這個職位要管理所有瑣碎財務、會議紀錄。阿修畢竟是大男生，粗心大意是男生的天性，我怕他做不到一週就把帳目搞砸。秘書長這種需要極度細心的職位，我們還是選學妹晴晴比較保險吧？」",
+                        choices: [
+                            "「也對，男生神經大條是天生的，管帳這種精細活還是交給女生讓人放心。」",
+                            "「這幕後根本是女權至上！你們女生就是想把持學生會核心職位，排擠我們男生！」",
+                            "「細心與行政管理能力屬於個人專業素養，而非性別天性。阿修在過去社團表現中展現了嚴謹的帳務執行力，評選幹部應依據過去的專案成果與客觀能力，而非性別印象。」",
+                            "「為了證明男生也很細心，我們應該讓阿修和晴晴進行一場一小時內的『抄寫比賽』，贏的人當秘書長。」"
+                        ],
+                        correctText: "「細心與行政管理能力屬於個人專業素養，而非性別天性。阿修在過去社團表現中展現了嚴謹的帳務執行力，評選幹部應依據過去的專案成果與客觀能力，而非性別印象。」",
+                        analysis: {
+                            correct: "精準解碼！你抓到了對男性的隱性偏見——將『粗心、不擅行政』歸咎為男性天性。你站穩客觀績效與成果主義，打破了校園社團中的標籤限制。",
+                            wrong0: "<b>選項 A 錯誤：【刻板印象附和】</b>。盲目承認男生天生粗心，這不僅在限制男性，同時也把細心行政矮化為女性的專屬標籤義務。",
+                            wrong1: "<b>選項 B 錯誤：【陰謀論對立】</b>。將單純的隱性偏見評判，過度解讀為惡意的性別排擠與意識形態對立，無助於客觀理性的選拔。",
+                            wrong3: "<b>選項 D 錯誤：【偏離專業評測】</b>。用毫無專業關聯、流於兒戲的比賽來決定重要職位，完全偏離了人才評選的客觀科學標準。"
+                        }
+                    },
+                    {
+                        desc: "【幼教實習評鑑】幼兒教育學系期末成果發表會，實習督導小宇在講評男實習生阿修的卓越表現時，笑著對全班說：",
+                        npc: "實習督導 小宇",
+                        text: "「阿修這次在幼兒園帶班表現第一名。我原本還擔心大男人帶幼幼班會手忙腳亂，沒想到他竟然比系上多數女同學還要溫柔有耐心。這真的很不容易，看來男生只要願意發揮母愛，也是能把小孩帶得很好的嘛！」",
+                        choices: [
+                            "「謝謝督導誇獎，我會繼續發揮母愛，像媽媽一樣照顧幼兒園的每一個孩子！」",
+                            "「這是在讚美還是損人？什麼叫稀有物種？你們幼教界就是長期排擠男性，才會覺得男生優秀很奇怪！」",
+                            "「謝謝督導對我專業表現的肯定。不過溫柔與耐心是所有幼教工作者應具備的專業素養，而非女性的專專屬特質；我展現的是對教育的專業熱忱，而非『母愛』的投射，男性的照護能力不應被視為異類。」",
+                            "「我覺得以後幼兒園招募時應該對男生進行加分，因為男生在幼教界真的太稀有了，這才叫保障弱勢。」"
+                        ],
+                        correctText: "「謝謝督導對我專業表現的肯定。不過溫柔與耐心是所有幼教工作者應具備的專業素養，而非女性的專專屬特質；我展現的是對教育的專業熱忱，而非『母愛』的投射，男性的照護能力不應被視為異類。」",
+                        analysis: {
+                            correct: "核心直擊！督導的發言看似在誇獎阿修（第一名），但潛台詞仍將男性的溫柔照護特質歸類為『異類、必須母愛化』。你成功將其正名為『教育專業熱忱』，捍衛了多元特質。",
+                            wrong0: "<b>選項 A 錯誤：【主體認同內化】</b>。順著督導的話將自己的專業能力自我矮化為『母愛投射』，模糊了男性作為專業照護者的獨立主體性。",
+                            wrong1: "<b>選項 B 錯誤：【防衛反彈刺蝟】</b>。回應語氣過度尖銳，雖然指出了體制對男性的排擠，但在成果發表會的大眾場合，無法達成良好的平權教育溝通效果。",
+                            wrong3: "<b>選項 D 錯誤：【過度補償特權】</b>。試圖用性別加分來解決稀少性，這不僅無法消除潛意識偏見，反而會引發其他群體的實質不公平感。"
+                        }
+                    }
+                ]
+            },
+            'C': {
+                title: "🕊️ 現代社交的微歧視",
+                scenarios: [
+                    {
+                        desc: "【家庭春節聚會】除夕夜，親戚長輩小宇在餐桌上，看著年近三十、在科技公司擔任主管、剛買房的女同仁晴晴，語氣關切地說：",
+                        npc: "長輩 小宇",
+                        text: "「晴晴啊，買房升官是很厲害啦。但女孩子事業心不要太重，女人最重要的歸宿還是家庭。妳看看人家小蔓，年紀輕輕就生了兩個，先生又挺。妳一個人賺那麼多錢，身邊沒個男人照顧，事業再成功也只是遺憾啦。」",
+                        choices: [
+                            "「大伯說得對，我明年一定努力相親，趕快結婚生子，不讓大家操心。」",
+                            "「你們這些老一輩的觀念早就該被淘汰了！現在女人不靠男人也能過得很好，你們結了婚的人難道就一定很幸福嗎？」",
+                            "「每個人對幸福與成功的定義各不相同。小蔓在家庭中獲得成就感，而我在職涯自我實現中得到滿足，這兩者都是非常有價值的生命選擇，女性的生命價值不應只有單一劇本。」",
+                            "「我覺得大伯沒看到我的實力，我現在賺的薪水是普通男人的三倍，我以後可以自己去精子銀行生小孩，不需要男人。」"
+                        ],
+                        correctText: "「每個人對幸福與成功的定義各不相同。小蔓在家庭中獲得成就感，而我在職涯自我實現中得到滿足，這兩者都是非常有價值的生命選擇，女性的生命價值不應只有單一劇本。」",
+                        analysis: {
+                            correct: "完美拆解！長輩的發言是典型的『單一歸宿論偏見』，將女性的成功等同於婚姻與生育。你提出『多元幸福選擇權』，既尊重了全職媽媽，也捍衛了職涯女性，高度展現平權的人文素養。",
+                            wrong0: "<b>選項 A 錯誤：【長輩期許妥協】</b>。為了迎合傳統孝道與性別標籤，在言語上否定了自己的職涯成就，強化了女性必須走入家庭的社會壓力。",
+                            wrong1: "<b>選項 B 錯誤：【世代撕裂對立】</b>。採用攻擊性的言詞（淘汰、老一輩）進行觀念的全面開戰，容易引發家庭關係撕裂，失去良性溝通契機。",
+                            wrong3: "<b>選項 D 錯誤：【金錢成功學標籤】</b>。試圖用『薪水是男人三倍』這種數據去反擊，本質上仍在用金錢與傲慢衡量生命，無法真正解構偏見標籤。"
+                        }
+                    },
+                    {
+                        desc: "【朋友聚會倒車現場】朋友聚會結束準備離開，男同學阿修看著剛拿到駕照、熟練地將休旅車一次倒車入庫成功的女同學小蔓，忍不住驚呼：",
+                        npc: "朋友 阿修",
+                        text: "「哇塞！小蔓妳也太猛了吧！居然一次就倒車入庫成功！妳開車的技術和那種果斷的狠勁，真的完全不像個女生耶！簡直比我們很多男生還熟練，太崇拜妳了！」",
+                        choices: [
+                            "「哈哈謝謝誇獎，大家都說我骨子裡其實根本是個男的，神經比較大條啦！」",
+                            "「你這句話什麼意思？是看不起我們女生開車嗎？著名的『三寶』標籤都是你們男人貼的惡意偏見！」",
+                            "「謝謝你的稱讚。不過開車的熟練度與空間感知純粹是個人練習與經驗累積的成果，這項技能並不具備性別特質，優秀的駕駛是不分性別的。」",
+                            "「那是因為我方向感好，你可以去查數據，近年來女性車禍的發生比例其實遠低於男性，男生開車才比較衝、比較危險。」"
+                        ],
+                        correctText: "「謝謝你的稱讚。不過開車的熟練度與空間感知純粹是個人練習與經驗累積的成果，這項技能並不具備性別特質，優秀的駕駛是不分性別的。」",
+                        analysis: {
+                            correct: "觀察細緻！阿修的發言屬於『包裝成讚美的微歧視』。他表面上在誇獎小蔓，但潛台詞仍預設了『女生普遍開車很爛、果斷是男性的專屬特質』。你成功將技能去性別化，正名為個人經驗成果。",
+                            wrong0: "<b>選項 A 錯誤：【去性別化附和】</b>。為了解迎合當下氣氛，順著對方的偏見進行自我特質矮化（承認自己骨子裡是男的），無形中認同了女生開車差的刻板偏見。",
+                            wrong1: "<b>選項 B 錯誤：【過度防衛反擊】</b>。在朋友單純表達讚賞的社交場合中，瞬間切換為高攻擊性的指責姿態，容易讓對話陷入僵局與社交尷尬。",
+                            wrong3: "<b>選項 D 錯誤：【反向標籤挪用】</b>。試圖引用車禍數據來反向暗示『男生開車比較衝、比較危險』，這只是用另一個性別刻板印象去回擊舊偏見。"
+                        }
+                    },
+                    {
+                        desc: "【健身房教練諮詢】晴晴去健身房諮詢重量訓練，男教練小宇看著她的身形，非常熱情且貼心地拿出粉紅色的輕量啞鈴推薦給她：",
+                        npc: "健身教練 小宇",
+                        text: "「晴晴妳好，女生來我們這裡，千萬不要去碰那邊的大槓鈴和深蹲喔，萬一不小心練太壯、練出大肌肉，看起來就太粗魯、沒有女生的柔美女人味了。來，我們用這個輕量核心球慢慢雕塑身材就好，保證幫妳練出男生最喜歡的體態！」",
+                        choices: [
+                            "「好啊好啊，我最怕變太壯了，謝謝教練幫我考慮得這麼周到！」",
+                            "「你們教練是不是沒專業啊？什麼時代了還在男生喜歡的體態？我就是想練成金剛芭比去比賽，關你什麼事！」",
+                            "「每個人進健身房的訓練目標都應基於個人的運動表現與健康需求。我希望透過重量訓練提升肌力、骨密度與基礎代謝，女性的體態美不應被單一的『柔美』或特定性別的審美觀所定義。」",
+                            "「那我要求換女教練，男教練根本不懂女性身體的生理結構，只會用直男審美來教課。」"
+                        ],
+                        correctText: "「每個人進健身房的訓練目標都應基於個人的運動表現與健康需求。我希望透過重量訓練提升肌力、骨密度與基礎代謝，女性的體態美不應被單一的『柔美』或特定性別的審美觀所定義。」",
+                        analysis: {
+                            correct: "精準反駁！教練將『女性健身』矮化為單一的『迎合他人審美、追求纖細柔美』，忽視了女性對力量與身體健康主權的追求。你成功將運動回歸到肌力與健康本質。",
+                            wrong0: "<b>選項 A 錯誤：【審美規訓內化】</b>。完全接受了社會對女性體態必須纖細的審美規訓，放棄了透過運動探索身體力量與健康的多元可能性。",
+                            wrong1: "<b>選項 B 錯誤：【流於個人偏激】</b>。語氣流於個人防衛與專業質疑，雖然表達了個人的極端目標（金剛芭比），但未能從平權與運動科學本質上解構偏見盲區。",
+                            wrong3: "<b>選項 D 錯誤：【性別隔離傾向】</b>。認為只有特定性別才能理解特定生理，這不僅無法解決小宇教練的觀念偏見，反而促成了職場/運動空間上的性別隔離主義。"
+                        }
+                    },
+                    {
+                        desc: "【社區管委會討論】社區討論增設兒童遊戲區的志工安排。管委會委員阿修在會議上站起來，向全體住戶提案：",
+                        npc: "委員 阿修",
+                        text: "「各位住戶，為了安全，我提議巡邏保全一定要聘請退休的男警衛，男人遇到暴力事件才有威嚇力。至於遊戲區的志工，我們就招募已婚媽媽們，因為媽媽有天生的母性光輝，最會溫柔安撫小孩。男人粗手粗腳不適合顧小孩，分工最完美！」",
+                        choices: [
+                            "「阿修委員考慮得太周到了！這就是男女有別、適才適所，我們全家投贊成票！」",
+                            "「這簡直是把女人當作免費的保姆勞工、把男人當作擋子彈的工具！你這個歧視女性的糟糕委員！」",
+                            "「安全防護與危機處理依靠的是專業的保全訓練與反應能力，而非性別威權；同樣地，兒童照護與心理安撫仰賴的是共情溝通技巧與實務經驗，不應以『天生母性或粗手粗腳』等性別直覺進行刻板劃分。」",
+                            "「我反對！現在很多女警比男警還兇悍，我們應該招募女保全去抓壞人，讓社區的爸爸們去負責哭鬧區洗碗。」"
+                        ],
+                        correctText: "「安全防護與危機處理依靠的是專業的保全訓練與反應能力，而非性別威權；同樣地，兒童照護與心理安撫仰賴的是共情溝通技巧與實務經驗，不應以『天生母性或粗手粗腳』等性別直覺進行刻板劃分。」",
+                        analysis: {
+                            correct: "完美反駁！這是一道經典的『社會分工隱性歧視』。阿修委員將安全與照護功能強行進行性別二元貼標籤，同時壓迫了男女兩性。你成功引用『專業訓練』來取代『性別天性』。",
+                            wrong0: "<b>選項 A 錯誤：【體制偏見合理化】</b>。將刻板的性別分工誤認為是『適才適所』，盲目成為鞏固傳統性別分工體制的推手。",
+                            wrong1: "<b>選項 B 錯誤：【受害者情緒宣洩】</b>。訴諸受害者心態與激進對立，雖然指出了男女皆受到工具化的痛苦，但語氣流於指責，無法在公共議事中爭取理性支持。",
+                            wrong3: "<b>選項 D 錯誤：【反向標籤挪用】</b>。試圖透過對調分工、甚至使用『女警更兇悍』等新標籤去對抗舊標籤，並未從本質上瓦解性別直覺的荒謬性。"
+                        }
+                    }
+                ]
+            }
+        };
+
+        let currentPack = null;
+        let currentIndex = 0;
+        let biasScoreAccumulator = 0;
+
+        function closeIntroModal() {
+            document.getElementById('intro-modal').classList.add('hidden');
+        }
+
+        function startGroup(key) {
+            currentPack = groupDatabase[key];
+            currentPack.scenarios.forEach(s => {
+                s.userSelectedText = undefined; 
+                s.hasCalculatedScore = false;
+                // 在起始題組時，為每道題目進行獨立的選項亂數洗牌
+                s.shuffledChoices = [...s.choices];
+                shuffleArray(s.shuffledChoices);
+            });
+            
+            currentIndex = 0;
+            biasScoreAccumulator = 0;
+            
+            document.getElementById('pack-selector').classList.add('hidden');
+            document.getElementById('game-panel').classList.remove('hidden');
+            document.getElementById('current-group-title').innerText = currentPack.title;
+            
+            loadScenario();
+        }
+
+        // Fisher-Yates 洗牌標準演算法
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function abortGame() {
+            if (confirm("⏱️ 確定要中斷目前的偏見案件搜查，返回題組主選單嗎？")) {
+                document.getElementById('game-panel').classList.add('hidden');
+                document.getElementById('pack-selector').classList.remove('hidden');
+            }
+        }
+
+        function loadScenario() {
+            const s = currentPack.scenarios[currentIndex];
+            
+            document.getElementById('scenario-index').innerText = `情境 ${currentIndex + 1} / ${currentPack.scenarios.length}`;
+            document.getElementById('scenario-desc').innerText = s.desc;
+            document.getElementById('npc-name').innerText = `${s.npc} 說：`;
+            document.getElementById('dialog-box').innerText = s.text;
+            
+            const prevBtn = document.getElementById('prev-btn');
+            if (currentIndex === 0) {
+                prevBtn.classList.add('opacity-40', 'pointer-events-none');
+            } else {
+                prevBtn.classList.remove('opacity-40', 'pointer-events-none');
+            }
+
+            // 【核心持久與亂數判定機制】
+            if (s.userSelectedText !== undefined) {
+                renderChoicesLocked(s);
+                showFeedbackBlock(s.userSelectedText, s);
+                document.getElementById('next-btn').classList.remove('hidden');
+            } else {
+                document.getElementById('feedback-block').classList.add('hidden');
+                document.getElementById('next-btn').classList.add('hidden');
+                renderChoicesActive(s);
+            }
+        }
+
+        function renderChoicesActive(s) {
+            const choicesArea = document.getElementById('choices-area');
+            choicesArea.innerHTML = '';
+            
+            s.shuffledChoices.forEach((text, i) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border-2 border-slate-100 hover:border-indigo-400 hover:bg-indigo-50/40 transition-all text-xs md:text-sm font-medium text-slate-700 shadow-sm leading-relaxed";
+                btn.innerHTML = text;
+                btn.onclick = () => checkChoice(text, s);
+                choicesArea.appendChild(btn);
+            });
+        }
+
+        function renderChoicesLocked(s) {
+            const choicesArea = document.getElementById('choices-area');
+            choicesArea.innerHTML = '';
+            
+            s.shuffledChoices.forEach((text, i) => {
+                const btn = document.createElement('button');
+                btn.innerHTML = text;
+                if (text === s.correctText) {
+                    btn.className = "w-full text-left p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 text-xs md:text-sm font-medium shadow-sm leading-relaxed pointer-events-none";
+                } else if (text === s.userSelectedText) {
+                    btn.className = "w-full text-left p-4 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-900 text-xs md:text-sm font-medium shadow-sm leading-relaxed pointer-events-none";
+                } else {
+                    btn.className = "w-full text-left p-4 rounded-xl border border-slate-100 bg-slate-50 text-slate-400 text-xs md:text-sm font-medium leading-relaxed pointer-events-none";
+                }
+                choicesArea.appendChild(btn);
+            });
+        }
+
+        function checkChoice(selectedText, s) {
+            s.userSelectedText = selectedText; 
+
+            if (!s.hasCalculatedScore) {
+                s.hasCalculatedScore = true;
+                if (selectedText !== s.correctText) {
+                    biasScoreAccumulator += 25;
+                }
+            }
+
+            renderChoicesLocked(s);
+            showFeedbackBlock(selectedText, s);
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function showFeedbackBlock(selectedText, s) {
+            const isCorrect = (selectedText === s.correctText);
+            const feedbackBlock = document.getElementById('feedback-block');
+            const feedbackTitle = document.getElementById('feedback-title');
+            const analysisContent = document.getElementById('feedback-analysis-content');
+            
+            feedbackBlock.classList.remove('hidden');
+            if (isCorrect) {
+                feedbackBlock.className = "my-4 p-5 rounded-xl border border-emerald-200 bg-emerald-50/50 text-xs leading-relaxed animate-fade-in shadow-sm";
+                feedbackTitle.className = "font-bold text-sm text-emerald-800 flex items-center gap-1";
+                feedbackTitle.innerHTML = "🎯 偵查成功！你精準識破了核心隱性偏見";
+            } else {
+                feedbackBlock.className = "my-4 p-5 rounded-xl border border-rose-200 bg-rose-50/50 text-xs leading-relaxed animate-fade-in shadow-sm";
+                feedbackTitle.className = "font-bold text-sm text-rose-800 flex items-center gap-1";
+                feedbackTitle.innerHTML = "❌ 偵查受阻！你落入了對話中的潛意識陷阱";
+            }
+
+            analysisContent.innerHTML = `
+                <div class="p-3 bg-white border border-emerald-100 rounded-lg text-slate-700 font-medium mb-3 shadow-sm">
+                    <span class="font-bold text-emerald-800 block mb-0.5">🌟 正確平權核心反駁：</span>
+                    ${s.analysis.correct}
+                </div>
+                <div class="p-3 bg-white border border-slate-200 rounded-lg text-slate-600 space-y-2 shadow-sm">
+                    <span class="font-bold block text-slate-500 mb-1">🔍 其餘三個選項為什麼錯？</span>
+                    <p class="border-b border-slate-100 pb-1.5">${s.analysis.wrong0}</p>
+                    <p class="border-b border-slate-100 pb-1.5">${s.analysis.wrong1}</p>
+                    <p>${s.analysis.wrong3}</p>
+                </div>
+            `;
+        }
+
+        function prevScenario() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadScenario();
+            }
+        }
+
+        function nextScenario() {
+            currentIndex++;
+            if (currentIndex < currentPack.scenarios.length) {
+                loadScenario();
+            } else {
+                revealFinalComprehensiveReport();
+            }
+        }
+
+        function revealFinalComprehensiveReport() {
+            let badgeTitle = "";
+            let badgeColor = "";
+            if (biasScoreAccumulator === 0) { badgeTitle = "🥇 首席平權偵查官 (完美覺察)"; badgeColor = "text-emerald-700 bg-emerald-50 border-emerald-200"; }
+            else if (biasScoreAccumulator <= 25) { badgeTitle = "🥈 資深平權分析師 (思維敏銳)"; badgeColor = "text-indigo-700 bg-indigo-50 border-indigo-200"; }
+            else if (biasScoreAccumulator <= 50) { badgeTitle = "⚖️ 潛在偏見見習生 (仍需努力)"; badgeColor = "text-amber-700 bg-amber-50 border-amber-200"; }
+            else { badgeTitle = "⚠️ 盲點重重觀察員 (極需再造)"; badgeColor = "text-rose-700 bg-rose-50 border-rose-200"; }
+
+            document.getElementById('game-panel').innerHTML = `
+                <div class="flex flex-col p-2 bg-white rounded-2xl animate-fade-in text-sm text-center">
+                    <div class="text-5xl mb-3">🏆</div>
+                    <h1 class="text-2xl font-bold text-slate-800">題組偵查任務圓滿完成</h1>
+                    <p class="text-xs text-slate-400 mt-1">恭喜你順利通過 4 個核心案件的考驗，以下是你的綜合偏見指數評定：</p>
+                    
+                    <div class="mt-6 max-w-sm mx-auto p-5 rounded-2xl border-2 w-full shadow-sm ${badgeColor}">
+                        <span class="text-xs font-bold block mb-1">本次事件簿潛意識偏見值</span>
+                        <span class="text-4xl font-mono font-bold block my-1">${biasScoreAccumulator}%</span>
+                        <span class="text-xs font-bold block mt-2 border-t border-current/20 pt-2">獲得平權認證稱號：<br><span class="text-sm font-bold mt-1 inline-block">${badgeTitle}</span></span>
+                    </div>
+
+                    <p class="text-xs text-slate-500 max-w-md mx-auto mt-6 leading-relaxed">日常生活中，偏見的消除需要持之以恆的自省。感謝你用同理心與理性，和我們一起點亮友善校園與職場的平權微光。</p>
+                    
+                    <div class="grid grid-cols-2 gap-3 mt-8 max-w-md mx-auto w-full">
+                        <button onclick="location.reload()" class="bg-slate-100 text-slate-600 font-bold py-3.5 rounded-xl hover:bg-slate-200 transition text-xs text-center shadow-sm">
+                            🔄 挑戰其他題組
+                        </button>
+                        <button onclick="window.location.href='index.html'" class="bg-indigo-600 text-white font-bold py-3.5 rounded-xl hover:bg-indigo-500 transition shadow-md text-xs text-center">
+                            回歸倡議首頁
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
